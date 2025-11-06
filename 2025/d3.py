@@ -13,11 +13,4 @@ G = get_input('3-2.in')
 print('B', sum(list(sorted(set(G)))[:20]))
 
 G = get_input('3-3.in')
-c = collections.Counter(G)
-ans = 0
-while any(c.values()):
-    s = set(i for i in c if c[i] > 0)
-    for n in s:
-        c[n] -= 1
-    ans += 1
-print('C', ans)
+print('C', max(collections.Counter(G).values()))
