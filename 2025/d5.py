@@ -10,12 +10,10 @@ def get_input(part):
 def run(part):
     G = get_input(part)
     qual = []
-    C = []
+    checksum = []
     for sword in G:
         F = [[None, sword[1], None]]
-        q = sword[2:]
-        while q:
-            v = q.pop(0)
+        for v in sword[2:]:
             for b in F:
                 if v < b[1] and b[0] is None:
                     b[0] = v
@@ -28,17 +26,12 @@ def run(part):
         q = int(''.join(str(x[1]) for x in F))
         qual.append(q)
         qq = tuple(int(''.join(str(i) for i in f if i)) for f in F)
-        C.append((q, qq, sword[0]))
+        checksum.append((q, qq, sword[0]))
     if part == 1:
         return qual[0]
     elif part == 2:
         return max(qual)-min(qual)
-    else:
-        C.sort(reverse=1)
-        ans = 0
-        for a, b in enumerate(C, start=1):
-            ans += a*b[-1]
-        return ans
+    return sum(a*b[-1] for a, b in enumerate(sorted(checksum, reverse=1), start=1))
 
 
 print('A', run(1))
