@@ -1,19 +1,14 @@
-import re
-
-reg = re.compile(r"ISO2?\-(\d+)\s(\d+)")
-
-
-def get_input(fn):
-    with open(fn) as f:
-        return f.read().splitlines()
+def get_input(part):
+    with open(f"3-{part}.in") as f:
+        yield from (x.split('-')[-1].split() for x in f.read().splitlines())
 
 
 def adder(x, y):
-    while len(x) < len(y):
-        x += x
     return sum(
         int(a) * (int(b) ** ix)
-        for ix, (b, a) in enumerate(zip(reversed(x), reversed(y)))
+        for ix, (b, a) in enumerate(
+            zip(reversed(x * (len(y) // len(x) + 1)), reversed(y))
+        )
     )
 
 
@@ -21,32 +16,13 @@ def is_valid(s, x, y):
     return not any(s == adder(x, str(y)) for y in range(int(y)))
 
 
-def part1():
-    ans = 0
-    for row in get_input("3-1.in"):
-        x, y = reg.match(row).groups()
-        ans += adder(x, y)
-    print("A", ans)
+def solve(part):
+    return sum(
+        s if part in (1, 2) or is_valid(s, *x) else 0
+        for (x, s) in ((x, adder(*x)) for x in get_input(part))
+    )
 
 
-def part2():
-    ans = 0
-    for row in get_input("3-2.in"):
-        x, y = reg.match(row).groups()
-        ans += adder(x, y)
-    print("B", ans)
-
-
-def part3():
-    ans = 0
-    for row in get_input("3-3.in"):
-        x, y = reg.match(row).groups()
-        s = adder(x, y)
-        if is_valid(s, x, y):
-            ans += s
-    print("C", ans)
-
-
-part1()
-part2()
-part3()
+print("A", solve(1))
+print("B", solve(2))
+print("C", solve(3))

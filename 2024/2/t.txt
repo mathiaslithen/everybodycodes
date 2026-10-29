@@ -1,0 +1,15 @@
+Example based on the following notes:
+WORDS:THE,OWE,MES,ROD,HER,QAQ
+
+AWAKEN THE POWE ADORNED WITH THE FLAMES BRIGHT IRE
+THE FLAME SHIELDED THE HEART OF THE KINGS
+POWE PO WER P OWE R
+THERE IS THE END
+QAQAQ
+For this inscription, counting the runic symbols proceeds as follows:
+AWAKEN THE POWE ADORNED WITH THE FLAMES BRIGHT IRE: 15 runic symbols
+THE FLAME SHIELDED THE HEART OF THE KINGS: 9 runic symbols
+POWE PO WER P OWE R: 6 runic symbols
+THERE IS THE END: 7 runic symbols
+QAQAQ: 5 runic symbols (two QAQ words overlap each other)
+Thus, the final count is: 15 + 9 + 6 + 7 + 5 = 42 runic symbols

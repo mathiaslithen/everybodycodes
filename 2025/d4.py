@@ -2,10 +2,7 @@ def get_input(part):
     with open(f'4-{part}.in') as f:
         if part in (1, 2):
             return list(map(int, f.read().splitlines()))
-        N = []
-        for line in f:
-            N.append(tuple(map(int, line.split('|'))))
-        return N
+        return [tuple(map(int, line.split('|'))) for line in f]
 
 
 n = get_input(1)

@@ -6,12 +6,13 @@ def get_input(part):
         G = f.read().splitlines()
     R, C = len(G), len(G[0])
     start = stop = None
-    for r, row in enumerate(G):
-        for c, val in enumerate(row):
-            if val == 'S':
-                start = (r, c)
-            elif val == 'E':
-                stop = (r, c)
+    if part in (2, 3):
+        for r, row in enumerate(G):
+            for c, val in enumerate(row):
+                if val == 'S':
+                    start = (r, c)
+                elif val == 'E':
+                    stop = (r, c)
     return G, R, C, start, stop
 
 
@@ -70,22 +71,22 @@ def part1():
 
 def part2():
     G, R, C, start, stop = get_input(2)
-    q = [(start, [])]
+    q = [(0, start)]
     D = {}
     while q:
-        pos, path = q.pop(0)
+        dist, pos = q.pop(0)
         if pos == stop:
-            break
+            return dist
         r, c = pos
-        steps = len(path)+1
+        dist += 1
         for dr, dc in DX:
             np = rr, cc = r+dr, c+dc
             if valid_step(pos, np, dr, dc, G, R, C):
-                if np in D and D[np] <= steps:
+                if np in D and D[np] <= dist:
                     continue
-                D[np] = steps
-                q.append((np, path+[np]))
-    return len(path)
+                D[np] = dist
+                q.append((dist, np))
+    return len
 
 
 def part3():
@@ -106,9 +107,8 @@ def part3():
                 dr, dc = dx[it % 2]
                 it += 1
                 pos = r+dr, c+dc
-        for x in g:
-            while len(x) != C:
-                x.append('.')
+        for row in g:
+            row.extend(['.']*(C-len(row)))
         return g
 
     GRIDS = [G]

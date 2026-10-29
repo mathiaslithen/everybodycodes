@@ -9,13 +9,6 @@ def get_input(part):
     return W.split(','), D
 
 
-def check(w, D):
-    for a, b in zip(w, w[1:]):
-        if b not in D[a]:
-            return False
-    return True
-
-
 def part3(w, D):
     local = set()
     org = len(w)
@@ -46,7 +39,7 @@ def run(part):
     ans = 0
     s = set()
     for ix, w in enumerate(W, start=1):
-        if check(w, D):
+        if all(b in D[a] for a, b in zip(w, w[1:])):
             if part == 1:
                 return w
             if part == 2:

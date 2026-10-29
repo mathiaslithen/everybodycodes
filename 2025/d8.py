@@ -8,8 +8,6 @@ def get_input(part):
 
 
 def intersect(a, b, x, y):
-    if a == x or a == y or b == x or b == y:
-        return 0
     a, b, x, y = min(a, b), max(a, b), min(x, y), max(x, y)
     if (
         (a > x and a < y and b > y)
@@ -25,12 +23,7 @@ def run(part):
     if part == 1:
         return sum(abs(a-b) == 16 for a, b in G)
     if part == 2:
-        ans = 0
-        X = []
-        for a in G:
-            ans += sum(intersect(*a, *b) for b in X)
-            X.append(a)
-        return ans
+        return sum(intersect(*a, *b) for ix, a in enumerate(G) for b in G[:ix])
     return max(
         sum(intersect(*a, *b) for b in G)
         for a in itertools.combinations(range(1, 256+1), 2)

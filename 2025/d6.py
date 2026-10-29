@@ -20,14 +20,14 @@ def run(part):
         if part == 1 and key != 'a':
             continue
         if key.islower():
+            k = key.upper()
             for ix in D[key]:
-                k = key.upper()
                 if part == 3:
                     a = bisect.bisect_left(D[k], ix-1000)
                     b = bisect.bisect_right(D[k], ix+1000)
                     ans += b-a
                 else:
-                    ans += sum(1 for i in D[k] if i < ix)
+                    ans += sum(i < ix for i in D[k] if i < ix)
     return ans
 
 

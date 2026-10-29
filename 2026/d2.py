@@ -1,38 +1,45 @@
 import re
-from functools import cmp_to_key
+from functools import cmp_to_key, partial
 
 reg = re.compile(r"(\d+)(<|>)(\d+)")
 
 
-def run(fn):
-    with open(fn) as f:
-        G = f.read().splitlines()
-    res = []
-    for row in G:
-        orders = set()
-        n = set()
-        for x in row.split():
-            a, op, b = reg.match(x).groups()
-            n.update((a, b))
-            orders.add((a, b) if op == "<" else (b, a))
-
-        def f(a, b):
-            if (a, b) in orders:
-                return 1
-            elif (b, a) in orders:
-                return -1
-            else:
-                for x in orders:
-                    if x[0] == a:
-                        for y in orders:
-                            if y[0] == x[1] and y[1] == b:
-                                return 1
-            return -1
-
-        res.append(int("".join(sorted(n, key=cmp_to_key(f)))))
-    return sum(res)
+def get_input(part):
+    with open(f"2-{part}.in") as f:
+        yield from (x.split() for x in f.read().splitlines())
 
 
-print("A", run("2-1.in"))
-print("B", run("2-2.in"))
-print("C", run("2-3.in"))
+def get_order(row):
+    order = set()
+    n = set()
+    for x in row:
+        a, op, b = reg.match(x).groups()
+        n.update((a, b))
+        order.add((a, b) if op == "<" else (b, a))
+    return order, list(n)
+
+
+def cmp(a, b, order):
+    if (a, b) in order:
+        return 1
+    elif (b, a) in order:
+        return -1
+    else:
+        for x in order:
+            if x[0] == a:
+                for y in order:
+                    if y[0] == x[1] and y[1] == b:
+                        return 1
+    return -1
+
+
+def solve(part):
+    return sum(
+        int("".join(sorted(n, key=cmp_to_key(partial(cmp, order=order)))))
+        for (order, n) in (get_order(x) for x in get_input(part))
+    )
+
+
+print("A", solve(1))
+print("B", solve(2))
+print("C", solve(3))
