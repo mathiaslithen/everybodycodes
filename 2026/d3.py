@@ -9,10 +9,16 @@ def get_input(fn):
 
 
 def adder(x, y):
+    while len(x) < len(y):
+        x += x
     return sum(
         int(a) * (int(b) ** ix)
         for ix, (b, a) in enumerate(zip(reversed(x), reversed(y)))
     )
+
+
+def is_valid(s, x, y):
+    return not any(s == adder(x, str(y)) for y in range(int(y)))
 
 
 def part1():
@@ -27,8 +33,6 @@ def part2():
     ans = 0
     for row in get_input("3-2.in"):
         x, y = reg.match(row).groups()
-        while len(x) < len(y):
-            x += x
         ans += adder(x, y)
     print("B", ans)
 
@@ -37,17 +41,8 @@ def part3():
     ans = 0
     for row in get_input("3-3.in"):
         x, y = reg.match(row).groups()
-        while len(x) < len(y):
-            x += x
         s = adder(x, y)
-        yy = int(y)
-        valid = True
-        while yy > 0:
-            yy -= 1
-            if s == adder(x, str(yy)):
-                valid = False
-                break
-        if valid:
+        if is_valid(s, x, y):
             ans += s
     print("C", ans)
 
